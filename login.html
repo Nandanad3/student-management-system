@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Student Management System</h1>
+    </header>
+
+    <main class="login-page">
+
+        <h2>Login</h2>
+
+        <p>Enter your credentials to access the Student Management System.</p>
+
+        <form id="loginForm" novalidate>
+
+            <!-- Username -->
+            <div class="form-group">
+
+                <label for="username">Username</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                >
+
+                <p id="usernameError" class="error-message"></p>
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="form-group">
+
+                <label for="password">Password</label>
+
+                <div class="password-container">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                    >
+
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="show-button">
+                        Show
+                    </button>
+
+                </div>
+
+                <p id="passwordError" class="error-message"></p>
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="form-group">
+
+                <label for="confirmPassword">Confirm Password</label>
+
+                <div class="password-container">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                    >
+
+                    <button
+                        type="button"
+                        id="toggleConfirmPassword"
+                        class="show-button">
+                        Show
+                    </button>
+
+                </div>
+
+                <p id="confirmError" class="error-message"></p>
+
+            </div>
+
+
+            <!-- Login Button -->
+
+            <button type="submit" class="login-button">
+                Login
+            </button>
+
+            <p id="formMessage" class="form-message"></p>
+
+        </form>
+
+    </main>
+
+
+    <script>
+
+        const form = document.getElementById("loginForm");
+
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+
+        const usernameError = document.getElementById("usernameError");
+        const passwordError = document.getElementById("passwordError");
+        const confirmError = document.getElementById("confirmError");
+
+        const formMessage = document.getElementById("formMessage");
+
+        const lengthRule = document.getElementById("lengthRule");
+        const uppercaseRule = document.getElementById("uppercaseRule");
+        const lowercaseRule = document.getElementById("lowercaseRule");
+        const numberRule = document.getElementById("numberRule");
+        const specialRule = document.getElementById("specialRule");
+
+        const strengthBar = document.getElementById("strengthBar");
+        const strengthText = document.getElementById("strengthText");
+
+
+        // Show / Hide Password
+
+        document.getElementById("togglePassword").addEventListener("click", function () {
+
+            if (password.type === "password") {
+
+                password.type = "text";
+                this.textContent = "Hide";
+
+            } else {
+
+                password.type = "password";
+                this.textContent = "Show";
+
+            }
+
+        });
+
+
+        // Show / Hide Confirm Password
+
+        document.getElementById("toggleConfirmPassword").addEventListener("click", function () {
+
+            if (confirmPassword.type === "password") {
+
+                confirmPassword.type = "text";
+                this.textContent = "Hide";
+
+            } else {
+
+                confirmPassword.type = "password";
+                this.textContent = "Show";
+
+            }
+
+        });
+
+
+        // Password Validation
+
+        password.addEventListener("input", function () {
+
+            const value = password.value;
+
+            const hasLength = value.length >= 8;
+            const hasUppercase = /[A-Z]/.test(value);
+            const hasLowercase = /[a-z]/.test(value);
+            const hasNumber = /[0-9]/.test(value);
+            const hasSpecial = /[^A-Za-z0-9]/.test(value);
+
+
+            updateRule(lengthRule, hasLength, "At least 8 characters");
+            updateRule(uppercaseRule, hasUppercase, "At least 1 uppercase letter");
+            updateRule(lowercaseRule, hasLowercase, "At least 1 lowercase letter");
+            updateRule(numberRule, hasNumber, "At least 1 number");
+            updateRule(specialRule, hasSpecial, "At least 1 special character");
+
+
+            // Password Strength
+
+            let score = 0;
+
+            if (hasLength) score++;
+            if (hasUppercase) score++;
+            if (hasLowercase) score++;
+            if (hasNumber) score++;
+            if (hasSpecial) score++;
+
+
+            if (value === "") {
+
+                strengthBar.style.width = "0%";
+                strengthText.textContent = "Password strength: None";
+
+            } else if (score <= 2) {
+
+                strengthBar.style.width = "30%";
+                strengthText.textContent = "Password strength: Weak";
+
+            } else if (score <= 4) {
+
+                strengthBar.style.width = "65%";
+                strengthText.textContent = "Password strength: Medium";
+
+            } else {
+
+                strengthBar.style.width = "100%";
+                strengthText.textContent = "Password strength: Strong";
+
+            }
+
+        });
+
+
+        // Update Rule
+
+        function updateRule(element, valid, text) {
+
+            if (valid) {
+
+                element.textContent = "✓ " + text;
+                element.classList.add("valid");
+                element.classList.remove("invalid");
+
+            } else {
+
+                element.textContent = "✗ " + text;
+                element.classList.add("invalid");
+                element.classList.remove("valid");
+
+            }
+
+        }
+
+
+        // Form Validation
+
+        form.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            let isValid = true;
+
+
+            // Username
+
+            if (username.value.trim() === "") {
+
+                usernameError.textContent = "Username is required.";
+                isValid = false;
+
+            } else if (username.value.trim().length < 3) {
+
+                usernameError.textContent =
+                    "Username must contain at least 3 characters.";
+
+                isValid = false;
+
+            } else {
+
+                usernameError.textContent = "";
+
+            }
+
+
+            // Password Rules
+
+            const value = password.value;
+
+            const hasLength = value.length >= 8;
+            const hasUppercase = /[A-Z]/.test(value);
+            const hasLowercase = /[a-z]/.test(value);
+            const hasNumber = /[0-9]/.test(value);
+            const hasSpecial = /[^A-Za-z0-9]/.test(value);
+
+
+            if (!hasLength ||
+                !hasUppercase ||
+                !hasLowercase ||
+                !hasNumber ||
+                !hasSpecial) {
+
+                passwordError.textContent =
+                    "Password does not meet all requirements.";
+
+                isValid = false;
+
+            } else {
+
+                passwordError.textContent = "";
+
+            }
+
+
+            // Confirm Password
+
+            if (confirmPassword.value === "") {
+
+                confirmError.textContent =
+                    "Please confirm your password.";
+
+                isValid = false;
+
+            } else if (confirmPassword.value !== password.value) {
+
+                confirmError.textContent =
+                    "Passwords do not match.";
+
+                isValid = false;
+
+            } else {
+
+                confirmError.textContent = "";
+
+            }
+
+
+            // Final Result
+
+            if (isValid) {
+
+                formMessage.textContent =
+                    "✓ Login validation successful!";
+
+                formMessage.className =
+                    "form-message success-message";
+
+            } else {
+
+                formMessage.textContent =
+                    "Please correct the errors above.";
+
+                formMessage.className =
+                    "form-message error-form-message";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
