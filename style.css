@@ -32,3 +32,82 @@ nav a {
     padding: 10px 15px;
     border-radius: 5px;
 }
+
+/* Member 5 - Minimal Professional UI */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f5f6f8;
+    color: #222;
+}
+
+header {
+    text-align: center;
+    padding: 60px 20px 30px;
+}
+
+header h1 {
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+
+header p {
+    color: #666;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.welcome-card {
+    background: white;
+    width: 100%;
+    max-width: 650px;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.welcome-card h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.welcome-card p {
+    color: #666;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    background-color: #222;
+    color: white;
+    padding: 11px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    background-color: #444;
+    transform: translateY(-1px);
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #888;
+    font-size: 13px;
+}
