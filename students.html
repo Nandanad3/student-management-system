@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Student Management - Student Management System</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Student Management System</h1>
+    </header>
+
+    <main class="student-page">
+      <h2>Student Management</h2>
+
+      <p>Add, view and manage student information using the form below.</p>
+
+      <!-- Student Form -->
+
+      <section class="student-form-section">
+        <h3>Add Student</h3>
+
+        <form id="studentForm" novalidate>
+          <div class="form-group">
+            <label for="studentId">Student ID</label>
+
+            <input
+              type="text"
+              id="studentId"
+              name="studentId"
+              placeholder="Enter Student ID"
+            />
+
+            <p id="studentIdError" class="error-message"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+
+            <input
+              type="text"
+              id="studentName"
+              name="studentName"
+              placeholder="Enter Student Name"
+            />
+
+            <p id="studentNameError" class="error-message"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="course">Course</label>
+
+            <input
+              type="text"
+              id="course"
+              name="course"
+              placeholder="Enter Course"
+            />
+
+            <p id="courseError" class="error-message"></p>
+          </div>
+
+          <button type="submit" class="student-button">Add Student</button>
+
+          <p id="formMessage" class="form-message"></p>
+        </form>
+      </section>
+
+      <!-- Student List -->
+
+      <section class="student-list-section">
+        <h3>Student List</h3>
+
+        <div class="table-container">
+          <table id="studentTable">
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="studentTableBody">
+              <!-- Students will be added here -->
+            </tbody>
+          </table>
+        </div>
+
+        <p id="emptyMessage" class="empty-message">No students added yet.</p>
+      </section>
+
+      <!-- Navigation -->
+
+      <nav class="student-navigation">
+        <a href="index.html">Home</a>
+
+        <a href="login.html">Login</a>
+
+        <a href="dashboard.html">Dashboard</a>
+
+        <a href="reports.html">Reports</a>
+      </nav>
+    </main>
+
+    <script>
+      const studentForm = document.getElementById("studentForm");
+
+      const studentId = document.getElementById("studentId");
+
+      const studentName = document.getElementById("studentName");
+
+      const course = document.getElementById("course");
+
+      const studentIdError = document.getElementById("studentIdError");
+
+      const studentNameError = document.getElementById("studentNameError");
+
+      const courseError = document.getElementById("courseError");
+
+      const formMessage = document.getElementById("formMessage");
+
+      const studentTableBody = document.getElementById("studentTableBody");
+
+      const emptyMessage = document.getElementById("emptyMessage");
+
+      let students = [];
+
+      /*
+       * Student Form Submission
+       */
+
+      studentForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let isValid = true;
+
+        // Clear previous messages
+
+        studentIdError.textContent = "";
+
+        studentNameError.textContent = "";
+
+        courseError.textContent = "";
+
+        formMessage.textContent = "";
+
+        /*
+         * Validate Student ID
+         */
+
+        const id = studentId.value.trim();
+
+        if (id === "") {
+          studentIdError.textContent = "Student ID is required.";
+
+          isValid = false;
+        } else if (id.length < 2) {
+          studentIdError.textContent =
+            "Student ID must contain at least 2 characters.";
+
+          isValid = false;
+        }
+
+        /*
+         * Validate Student Name
+         */
+
+        const name = studentName.value.trim();
+
+        if (name === "") {
+          studentNameError.textContent = "Student name is required.";
+
+          isValid = false;
+        } else if (name.length < 3) {
+          studentNameError.textContent =
+            "Student name must contain at least 3 characters.";
+
+          isValid = false;
+        }
+
+        /*
+         * Validate Course
+         */
+
+        const selectedCourse = course.value.trim();
+
+        if (selectedCourse === "") {
+          courseError.textContent = "Course is required.";
+
+          isValid = false;
+        } else if (selectedCourse.length < 2) {
+          courseError.textContent = "Please enter a valid course.";
+
+          isValid = false;
+        }
+
+        /*
+         * Check duplicate Student ID
+         */
+
+        const duplicateStudent = students.some(function (student) {
+          return student.id.toLowerCase() === id.toLowerCase();
+        });
+
+        if (duplicateStudent) {
+          studentIdError.textContent = "Student ID already exists.";
+
+          isValid = false;
+        }
+
+        /*
+         * Add Student
+         */
+
+        if (isValid) {
+          const newStudent = {
+            id: id,
+
+            name: name,
+
+            course: selectedCourse,
+          };
+
+          students.push(newStudent);
+
+          displayStudents();
+
+          studentForm.reset();
+
+          formMessage.textContent = "✓ Student added successfully.";
+
+          formMessage.className = "form-message success-message";
+        } else {
+          formMessage.textContent = "Please correct the errors above.";
+
+          formMessage.className = "form-message error-form-message";
+        }
+      });
+
+      /*
+       * Display Students
+       */
+
+      function displayStudents() {
+        studentTableBody.innerHTML = "";
+
+        if (students.length === 0) {
+          emptyMessage.style.display = "block";
+
+          return;
+        }
+
+        emptyMessage.style.display = "none";
+
+        students.forEach(function (student, index) {
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+
+                    <td>${student.id}</td>
+
+                    <td>${student.name}</td>
+
+                    <td>${student.course}</td>
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="delete-button"
+                            onclick="deleteStudent(${index})"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+          studentTableBody.appendChild(row);
+        });
+      }
+
+      /*
+       * Delete Student
+       */
+
+      function deleteStudent(index) {
+        const studentNameToDelete = students[index].name;
+
+        const confirmDelete = confirm(
+          "Are you sure you want to delete " + studentNameToDelete + "?",
+        );
+
+        if (confirmDelete) {
+          students.splice(index, 1);
+
+          displayStudents();
+
+          formMessage.textContent = "Student deleted successfully.";
+
+          formMessage.className = "form-message success-message";
+        }
+      }
+
+      /*
+       * Initial Display
+       */
+
+      displayStudents();
+    </script>
+  </body>
+</html>
