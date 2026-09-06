@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports - Student Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>Student Management System</h1>
+
+    </header>
+
+
+    <main class="reports-page">
+
+        <h2>Student Reports</h2>
+
+        <p>
+            View student marks, courses and attendance information.
+        </p>
+
+
+        <!-- Report Summary -->
+
+        <section class="report-summary">
+
+            <div class="summary-box">
+
+                <h3>Total Students</h3>
+
+                <p id="totalStudents">5</p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Average Marks</h3>
+
+                <p id="averageMarks">78%</p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Average Attendance</h3>
+
+                <p id="averageAttendance">88%</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Student Report Table -->
+
+        <section class="report-table-section">
+
+            <h3>Student Performance Report</h3>
+
+
+            <div class="table-container">
+
+                <table id="reportTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Student ID</th>
+
+                            <th>Student Name</th>
+
+                            <th>Course</th>
+
+                            <th>Marks</th>
+
+                            <th>Attendance</th>
+
+                            <th>Result</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="reportTableBody">
+
+                        <!-- Reports will be inserted here -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Navigation -->
+
+        <nav class="reports-navigation">
+
+            <a href="index.html">Home</a>
+
+            <a href="login.html">Login</a>
+
+            <a href="dashboard.html">Dashboard</a>
+
+            <a href="students.html">Students</a>
+
+        </nav>
+
+    </main>
+
+
+    <script>
+
+        /*
+         * Student Report Data
+         */
+
+        const reports = [
+
+            {
+                id: "ST001",
+                name: "Rahul Kumar",
+                course: "Computer Science",
+                marks: 85,
+                attendance: 92
+            },
+
+            {
+                id: "ST002",
+                name: "Anjali Nair",
+                course: "Information Technology",
+                marks: 78,
+                attendance: 88
+            },
+
+            {
+                id: "ST003",
+                name: "Arun Raj",
+                course: "Computer Science",
+                marks: 72,
+                attendance: 84
+            },
+
+            {
+                id: "ST004",
+                name: "Meera Thomas",
+                course: "Electronics",
+                marks: 91,
+                attendance: 95
+            },
+
+            {
+                id: "ST005",
+                name: "Akhil Das",
+                course: "Information Technology",
+                marks: 64,
+                attendance: 79
+            }
+
+        ];
+
+
+        /*
+         * Display Reports
+         */
+
+        const reportTableBody =
+            document.getElementById("reportTableBody");
+
+
+        function displayReports() {
+
+            reportTableBody.innerHTML = "";
+
+
+            reports.forEach(function(student) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                let result;
+
+
+                if (student.marks >= 50) {
+
+                    result = "Pass";
+
+                } else {
+
+                    result = "Fail";
+
+                }
+
+
+                row.innerHTML = `
+
+                    <td>${student.id}</td>
+
+                    <td>${student.name}</td>
+
+                    <td>${student.course}</td>
+
+                    <td>${student.marks}%</td>
+
+                    <td>${student.attendance}%</td>
+
+                    <td>${result}</td>
+
+                `;
+
+
+                reportTableBody.appendChild(row);
+
+            });
+
+        }
+
+
+        /*
+         * Calculate Average Marks
+         */
+
+        function calculateAverageMarks() {
+
+            let totalMarks = 0;
+
+
+            reports.forEach(function(student) {
+
+                totalMarks += student.marks;
+
+            });
+
+
+            return Math.round(
+                totalMarks / reports.length
+            );
+
+        }
+
+
+        /*
+         * Calculate Average Attendance
+         */
+
+        function calculateAverageAttendance() {
+
+            let totalAttendance = 0;
+
+
+            reports.forEach(function(student) {
+
+                totalAttendance += student.attendance;
+
+            });
+
+
+            return Math.round(
+                totalAttendance / reports.length
+            );
+
+        }
+
+
+        /*
+         * Update Summary
+         */
+
+        function updateSummary() {
+
+            document.getElementById("totalStudents")
+                .textContent = reports.length;
+
+
+            document.getElementById("averageMarks")
+                .textContent =
+                calculateAverageMarks() + "%";
+
+
+            document.getElementById("averageAttendance")
+                .textContent =
+                calculateAverageAttendance() + "%";
+
+        }
+
+
+        /*
+         * Load Report
+         */
+
+        displayReports();
+
+        updateSummary();
+
+    </script>
+
+</body>
+
+</html>
