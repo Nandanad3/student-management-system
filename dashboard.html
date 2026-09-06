@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Student Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .top-navigation {
+            background-color: #333;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .top-navigation a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 5px;
+        }
+
+        .top-navigation a:hover {
+            background-color: #555;
+        }
+
+        .top-navigation .active {
+            background-color: #555;
+        }
+
+        .dashboard-header {
+            margin-bottom: 25px;
+        }
+
+        .dashboard-header p {
+            color: #555;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .dashboard-card {
+            background-color: #f4f4f4;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .dashboard-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .dashboard-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin: 15px 0 5px;
+        }
+
+        @media (max-width: 700px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .top-navigation {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Student Management System</h1>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="top-navigation">
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="students.html">Students</a>
+        <a href="reports.html">Reports</a>
+    </nav>
+
+    <main>
+
+        <section class="dashboard-header">
+            <h2>Dashboard</h2>
+
+            <p>
+                Welcome to the Student Management System dashboard.
+                Here you can view an overview of students, courses and attendance.
+            </p>
+        </section>
+
+        <section class="dashboard-cards">
+
+            <div class="dashboard-card">
+                <h3>Total Students</h3>
+                <div class="number">120</div>
+                <p>Registered students</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Total Courses</h3>
+                <div class="number">12</div>
+                <p>Available courses</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Attendance</h3>
+                <div class="number">85%</div>
+                <p>Average attendance</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
